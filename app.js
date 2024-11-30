@@ -34,32 +34,37 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
 app.get("/form", (req, res) => {
   console.log(req.body);
   res.send("Okh");
 });
-app.get("/register", (req, res) => {
+
+app.get("/", (req, res) => {
   res.render("register");
 });
 
-app.post("/register",  async (req, res) => {
-  console.log(res.body)
+app.get("/all", (req,res) => {
+
+  // userModel.find().then((users) => {
+  //   res.send(users);
+  // });
+  
+});
+app.post("/register", async (req, res) => {
+  
+  console.log(req.body);
+
   const { username, password, age, email, gender } = req.body;
 
-   await userModel.create({
+  const newUser = await userModel.create({
     username,
     email,
     password,
     age,
-    gender
-  })
+    gender,
+  });
 
-  res.send("Abhi maja aya na bidu {REGISTERED}");
-  
+  res.send(newUser);
 });
 
 app.listen(3000);
